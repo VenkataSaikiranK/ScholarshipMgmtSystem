@@ -1,0 +1,12 @@
+{
+  "form_name": "CREATE SCHOLARSHIP",
+  "scholarship_name": "",
+  "effective_date": "yyyy-mm-dd hh:mm:ss",
+  "tuition_amount": null,
+  "travel_amount": null,
+  "insurance_amount": null,
+  "living_expense_amount": null,
+  "scholarship_criteria_girl_child": "true or false",
+  "scholarship_criteria_sports": "true or false",
+  "scholarship_criteria_academics": "true or false"
+}

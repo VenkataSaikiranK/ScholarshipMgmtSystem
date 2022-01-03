@@ -1,0 +1,19 @@
+{
+  "name": "",
+  "email": "institute@dal.ca",
+  "regd_code": "",
+  "password": "",
+  "re_confirm_password": "",
+  "address": "",
+  "city": "",
+  "institute_state": "",
+  "institute_contact": "",
+  "country": "",
+  "pincode": "",
+  "security_question_one": "What is your preferred musical genre?",
+  "security_answer_one": "",
+  "security_question_two": "What is the title of your favorite book?",
+  "security_answer_two": "",
+  "security_question_three": "What is the street name your office is located on?",
+  "security_answer_three": ""
+}

@@ -1,0 +1,58 @@
+variables:
+  CLEAN: "clean"
+
+image: node:latest
+
+before_script:
+  # Actions performed before a stage is triggered.
+  - apt-get update -qy
+  - apt-get install -y openssh-client
+  - eval $(ssh-agent -s)
+  - echo "$(<$DEPLOY_SSH_KEY)" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+stages:
+  # Three states that gets executed are, building the app, testing it by
+  # executing unit tests and checking the results.
+  # Deploying it if build, test passes.
+  - build
+  - test
+  #- deploy
+
+buildStep:
+  image: maven:3-jdk-11
+  stage: build
+  tags:
+    - dalfcs_docker_kvm
+  artifacts:
+    paths:
+      - target
+  script:
+    mvn clean install
+
+testStep:
+  image: maven:3-jdk-11
+  stage: test
+  tags:
+    - dalfcs_docker_kvm
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+  script:
+    mvn verify
+
+# deployStep:
+  # stage: deploy
+  # tags:
+    # - dalfcs_docker_kvm
+  # artifacts:
+    # paths:
+      # # Directory to the path that contains your built executable
+      # - target
+      # - src/main/conf
+  # script:
+    # - ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} "mkdir ${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}"
+    # - scp -r -o StrictHostKeyChecking=no target/ScholarshipManagement-1.0-SNAPSHOT.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.jar"
